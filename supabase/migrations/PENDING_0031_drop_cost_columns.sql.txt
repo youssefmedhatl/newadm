@@ -1,0 +1,28 @@
+-- ===========================================================================
+-- PENDING — DO NOT APPLY
+--
+-- The .txt extension is deliberate: this file must not be picked up by the
+-- migration runner. It is a note to the author, not a migration.
+--
+-- MUST NOT be applied until the author has verified Phase 2 of docs/FIX_PLAN.md
+-- — that is, that product_costs / variant_costs really are the only source of
+-- cost anywhere, in the database and in the admin screens.
+--
+-- Migration 0021 already closed the security hole by revoking every client
+-- role's access to these two columns. Dropping them is tidiness, not a fix,
+-- and it is irreversible. There is no hurry.
+--
+-- BEFORE APPLYING, ALSO FIX:
+--   supabase/migrations/0011_seed.sql still lists `cost_price` in its
+--   `insert into public.products (...)` and `insert into public.product_variants (...)`
+--   column lists. Dropping these columns without updating that file breaks a
+--   rebuild from scratch — which is the exact failure Phase 1 existed to
+--   repair. Remove cost_price from both inserts and seed public.product_costs
+--   and public.variant_costs instead.
+--
+-- When both of the above are true, rename this to 0031_drop_cost_columns.sql
+-- and apply it.
+-- ===========================================================================
+
+alter table public.products         drop column cost_price;
+alter table public.product_variants drop column cost_price;

@@ -1,0 +1,44 @@
+{
+  "name": "vitality-admin",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Vitality \u2014 staff admin dashboard (Supabase, cash-only)",
+  "scripts": {
+    "dev": "vite --port 5174",
+    "build": "vite build",
+    "preview": "vite preview --port 4174",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src",
+    "lint:hooks": "eslint src --quiet --rule \"{\\\"react-hooks/rules-of-hooks\\\":\\\"error\\\"}\"",
+    "db:types": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/lib/database.types.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.112.2",
+    "@tanstack/react-query": "5.101.4",
+    "clsx": "2.1.1",
+    "date-fns": "4.4.0",
+    "lucide-react": "0.469.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-router-dom": "7.18.2",
+    "recharts": "2.15.4",
+    "sonner": "1.7.4",
+    "tailwind-merge": "2.6.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/node": "22.20.1",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@vitejs/plugin-react": "4.7.0",
+    "eslint": "10.8.1",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.9.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.66.0",
+    "vite": "6.4.3"
+  }
+}
