@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react'
+import { useState, lazy, Suspense, type ComponentType } from 'react'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { isSupabaseConfigured } from '@/lib/env'
@@ -21,7 +21,7 @@ import { Button, Input, Spinner } from '@/components/ui'
 const lazyNamed = <T extends Record<string, unknown>, K extends keyof T>(
   loader: () => Promise<T>,
   name: K
-) => lazy(() => loader().then((m) => ({ default: m[name] as React.ComponentType })))
+) => lazy(() => loader().then((m) => ({ default: m[name] as ComponentType })))
 
 const AdminLayout = lazyNamed(() => import('@/admin/AdminLayout'), 'AdminLayout')
 const DashboardPage = lazyNamed(() => import('@/admin/pages/DashboardPage'), 'DashboardPage')
@@ -150,3 +150,48 @@ function LoginPage() {
   )
 }
 
+/**
+ * Application router.
+ *
+ * Keep every admin URL under /admin because the existing admin pages use
+ * absolute /admin/... navigation paths.
+ */
+function App() {
+  if (!isSupabaseConfigured()) {
+    return <NotConfiguredPage />
+  }
+
+  return (
+    <Suspense fallback={<RouteFallback />}>
+      <Routes>
+        <Route path="/admin/login" element={<LoginPage />} />
+
+        <Route
+          path="/admin"
+          element={
+            <RequireStaff>
+              <AdminLayout />
+            </RequireStaff>
+          }
+        >
+          <Route index element={<DashboardPage />} />
+          <Route path="pos" element={<POSPage />} />
+          <Route path="orders" element={<OrdersPage />} />
+          <Route path="orders/:id" element={<OrderDetailPage />} />
+          <Route path="history" element={<HistoryPage />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route path="products/new" element={<ProductEditor />} />
+          <Route path="products/:id" element={<ProductEditor />} />
+          <Route path="discounts" element={<DiscountsPage />} />
+          <Route path="inventory" element={<InventoryPage />} />
+          <Route path="storefront" element={<StorefrontPage />} />
+        </Route>
+
+        <Route path="/" element={<Navigate to="/admin" replace />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
+      </Routes>
+    </Suspense>
+  )
+}
+
+export default App
