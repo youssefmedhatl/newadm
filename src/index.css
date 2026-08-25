@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  /* Old-money palette: espresso ink, warm ivory, taupe, chocolate, beige */
+  --color-ink: #2B2320;
+  --color-bone: #F4EEE2;
+  --color-moss: #7A6A55;
+  --color-ember: #3F2E22;
+  --color-sand: #E4D8C3;
+  --color-success: #6B7A4F;
+  --color-warning: #B8863B;
+  --color-danger: #A0492E;
+  --color-info: #6E6154;
+
+  --font-display: "Anton", system-ui;
+  --font-sans: "Space Grotesk", system-ui;
+  --font-arabic: "IBM Plex Sans Arabic", system-ui;
+}
+
+/* Base styles */
+@layer base {
+  body {
+    @apply bg-bone text-ink;
+    font-family: var(--font-sans);
+  }
+
+  /* Arabic font stack for RTL content */
+  [dir="rtl"] body {
+    font-family: var(--font-arabic);
+  }
+
+  /* Visible focus rings for accessibility */
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+}
+
+/* Display utility: Anton uppercase headings — size comes from Tailwind utilities */
+@layer components {
+  .display {
+    font-family: var(--font-display);
+    line-height: 0.9;
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  /* Under RTL, display headings use IBM Plex Sans Arabic weight 700 */
+  [dir="rtl"] .display {
+    font-family: var(--font-arabic);
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+}
+
+/* Storefront marquee ticker scroll */
+@keyframes store-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Printing: whatever is marked .print-area is the only thing that renders.
+   Every print button in the app (Z-report, POS receipt, order invoice, order
+   confirmation) points at a .print-area, so one rule covers them all. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute;
+    top: 0;
+    /* logical inset so the sheet is not offset under RTL */
+    inset-inline-start: 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Controls never belong on paper. */
+  .no-print {
+    display: none !important;
+  }
+}
