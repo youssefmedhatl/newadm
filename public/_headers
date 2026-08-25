@@ -1,0 +1,7 @@
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-6VLw/4Aazf5O9LD7YB6VhJnrrumN5M4MTVZ7LB+qEMU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://xsfpfukhuvsurtfqbhup.supabase.co; media-src 'self' blob: https://xsfpfukhuvsurtfqbhup.supabase.co; connect-src 'self' https://xsfpfukhuvsurtfqbhup.supabase.co wss://xsfpfukhuvsurtfqbhup.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
