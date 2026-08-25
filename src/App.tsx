@@ -157,7 +157,8 @@ function LoginPage() {
  * absolute /admin/... navigation paths.
  */
 function App() {
-  if (!isSupabaseConfigured()) {
+  // isSupabaseConfigured is a boolean constant, not a function.
+  if (!isSupabaseConfigured) {
     return <NotConfiguredPage />
   }
 
